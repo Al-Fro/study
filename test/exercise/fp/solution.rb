@@ -10,7 +10,8 @@ module Exercise
           key_country = film['country']
           !key_country.nil? && key_country.split(',').length >= 2 && !key_rating.nil? && key_rating != 0
         end
-        sort_array.map { |film| film['rating_kinopoisk'].to_f }.reduce(:+) / sort_array.length
+        result = sort_array.map { |film| film['rating_kinopoisk'].to_f }.reduce(:+)
+        result / sort_array.length
       end
 
       def chars_count(films, threshold)
