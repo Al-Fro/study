@@ -7,13 +7,10 @@ module Exercise
       end
 
       def search(array, query)
-        array.each do |el|
-          return binar_search(array, query) if el == query
-        end
-        -1
-      end
+        num = 0
+        array.each { |el| num = 1 if el == query }
+        return -1 if num != 1
 
-      def binar_search(array, query)
         left = 0
         right = array.size - 1
         mid = (left + right) / 2
