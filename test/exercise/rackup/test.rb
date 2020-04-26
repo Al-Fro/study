@@ -5,6 +5,12 @@ require_relative './inatra'
 require_relative './my_app'
 
 class RackTest < Test::Unit::TestCase
+  RackTest.class_eval do
+    def omit
+      yield
+    end
+  end
+
   def test_it_says_hello_world
     omit do
       browser = Rack::Test::Session.new(Rack::MockSession.new(Inatra))
