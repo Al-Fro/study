@@ -7,18 +7,14 @@ module Exercise
       def rating(array)
         sort_array = array.select do |film|
           key_rating = film['rating_kinopoisk'].to_f
-          key_country = film['country']
-          !key_country.nil? && key_country.split(',').length >= 2 && !key_rating.nil? && key_rating != 0
+          film['country'].present? && film['country'].split(',').length >= 2 && key_rating != 0
         end
         result = sort_array.map { |film| film['rating_kinopoisk'].to_f }.reduce(:+)
         result / sort_array.length
       end
 
       def chars_count(films, threshold)
-        sort_array = films.select do |film|
-          key_rating = film['rating_kinopoisk'].to_f
-          !key_rating.nil? && key_rating >= threshold
-        end
+        sort_array = films.select { |film| film['rating_kinopoisk'].to_f >= threshold }
         sort_array.map { |film| film['name'] }.join('').split('').select { |el| el.include?('и') }.size
       end
     end
