@@ -15,7 +15,7 @@ module Exercise
 
       def chars_count(films, threshold)
         sort_array = films.select { |film| film['rating_kinopoisk'].to_f >= threshold }
-        sort_array.map { |film| film['name'] }.join('').split('').select { |el| el.include?('и') }.size
+        sort_array.map { |film| film['name'] }.join('').count('и')
       end
     end
   end
