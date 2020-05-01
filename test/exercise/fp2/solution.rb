@@ -6,34 +6,38 @@ module Exercise
 
       # Написать свою функцию my_each
 
-      def my_each(&func)
-        for el in self
-          func.call(el)
-        end
+      def my_each(acc = [], &func)
+        first, *rest = self
+        acc << first
+        func.call(first)
+        return acc if rest.empty?
+
+        MyArray.new(rest).my_each(acc, &func)
       end
 
       # Написать свою функцию my_map
       def my_map(&func)
-        my_array = MyArray.new
-        my_each { |el| my_array << func.call(el) }
-        my_array
+        my_reduce(MyArray.new) do |acc, el|
+          acc << func.call(el)
+        end
       end
 
       # Написать свою функцию my_compact
       def my_compact
-        my_array = MyArray.new
-        for el in self
-          my_array << el unless el.nil?
+        my_reduce(MyArray.new) do |acc, el|
+          el.nil? ? acc : acc << el
         end
-        my_array
       end
 
       # Написать свою функцию my_reduce
       def my_reduce(acc = nil, &func)
-        my_array = acc.nil? ? self[1, size - 1] : self
-        acc = acc.nil? ? first : acc
-        my_array.my_each { |el| acc = func.call(acc, el) }
-        acc
+        arr = acc.nil? ? self[1, size - 1] : self
+        acc = self.first if acc.nil?
+        first, *rest = arr
+        acc = func.call(acc, first)
+        return acc if rest.empty?
+        
+        MyArray.new(rest).my_reduce(acc, &func)
       end
     end
   end
