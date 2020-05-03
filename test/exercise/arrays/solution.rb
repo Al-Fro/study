@@ -6,25 +6,14 @@ module Exercise
         array.map { |el| el.positive? ? max_el : el }
       end
 
-      def search(array, query)
-        num = 0
-        array.each { |el| num = 1 if el == query }
-        return -1 if num != 1
-
-        left = 0
-        right = array.size - 1
+      def search(array, query, left = 0, right = array.size - 1)
         mid = (left + right) / 2
+        return - 1 if array.empty? || left > right 
 
-          while array[mid] != query
-            if array[mid] > query
-              right = mid - 1
-            else
-              left = mid + 1
-            end
-            mid = (left + right) / 2
-          end
+        return mid if array[mid] == query
 
-        mid
+        array[mid] > query ? right = mid - 1 : left = mid + 1
+        search(array, query, left, right)
       end
     end
   end
